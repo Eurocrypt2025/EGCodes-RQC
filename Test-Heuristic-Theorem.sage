@@ -1,4 +1,4 @@
-################  Test Heuristic  ####################
+################  Test Heuristic  Argument in Theorem 3 (Page 21) for weight w = r ####################
 
 def random_small_vector_genenration(Extension, Length, Weight):
     B = matrix(Fqm.base_ring(), Weight, Extension, 0)
@@ -36,23 +36,23 @@ def Frob_Map(element,degree):
 
 def Frob_vector(vectors,degrees):
     lengths = len(list(vectors))
-    Frob_vector = vector(Fqm,lengths,[Frob_Map(vectors[i],degrees) for i in range(lengths)])
+    Frob_vector = vector(Fqm, lengths, [Frob_Map(vectors[i], degrees) for i in range(lengths)])
     return Frob_vector
 
 def Moore_matrix(vectors,rows):
     List = []; columns = len(list(vectors))
     for i in range(rows):
         List.append(Frob_vector(vectors,i))
-    return matrix(Fqm,rows,columns,List)
+    return matrix(Fqm, rows, columns, List)
 
 def test(totalltests):
     succ = 0
     failure = 0
     for npair in range(totalltests):
-        M = random_small_rank_matrix_genenration(t+r, n, TestRank)
+        M = random_small_rank_matrix_genenration(t+w, n, TestRank)
         B = L * M
         try:
-            if B.rank() == k + 2*r: 
+            if B.rank() == TestRank: 
                 succ += 1
             else:
                 failure += 1
@@ -62,9 +62,14 @@ def test(totalltests):
     print ("success/totalltests: %d/%d; success rate: %f" % (succ,totalltests,succ/totalltests))
     print ("failure/totalltests: %d/%d; failure rate: %f" % (failure,totalltests,failure/totalltests))
     
+# t = |g|
+# t >= k + r  
+# n >= k + 2r 
+# Ensure the Rank of n * (k + 2r + 1) to be  k+2r 
+#  r <= min(n-k/2,m-k)
 
-#(q,m,n,t, k,r) = (2,53,89,53,5,36)  
-(q,m,n,t,k,r) = (2,3,6,3,2,1)
+#(q,m,n,t, k,r,w) = (2,53,89,53,5,36,36)  
+(q,m,n,t,k,r,w) = (2,10,20,10,2,8,8)
 
 Fqm.<a> = GF(q**m)
 Frob = Fqm.frobenius_endomorphism()
@@ -72,9 +77,9 @@ S = OrePolynomialRing(Fqm, Frob, 'x')
 # S.<x> = Fqm['x', Frob]
 
      
-g = random_small_vector_genenration(m,t,t) 
-e = random_small_vector_genenration(m,r,r)   
-L = block_diagonal_matrix(Moore_matrix(e,r+1),Moore_matrix(g,k+r))
-TestRank = k + 2*r
+g = random_small_vector_genenration(m, t, t) 
+e = random_small_vector_genenration(m, w, w)   
+L = block_diagonal_matrix(Moore_matrix(e, r+1), Moore_matrix(g, k+r))
+TestRank = k + r + w
 
-test(100000)
+%time test(100000)

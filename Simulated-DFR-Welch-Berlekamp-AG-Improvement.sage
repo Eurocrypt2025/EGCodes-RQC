@@ -56,8 +56,8 @@ def reconstruction(g, y, k, n):
                 # No suitable j -> return current (N1, V1) as solution
                 return N1, V1, A, I
             # Swap positions i and j in all vectors
-            g_list[i], g_list[j] = g_list[j], g_list[i]
-            y_list[i], y_list[j] = y_list[j], y_list[i]
+            # g_list[i], g_list[j] = g_list[j], g_list[i]
+            # y_list[i], y_list[j] = y_list[j], y_list[i]
             u0[i], u0[j] = u0[j], u0[i]
             u1[i], u1[j] = u1[j], u1[i]
             # After swapping, continue with same i (the new u1[i] is non‑zero)

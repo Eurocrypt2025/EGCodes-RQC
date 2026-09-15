@@ -333,6 +333,6 @@ S.<x> = Fqm['x', Frob]
 Message = random_vector(Fqm, k) 
 g = random_small_vector_genenration(m, n, min(m, n, t))
 # g1 = random_small_vec_gen(t, t);  g2 = zero_vector(Fqm, n-t);  g = vector(g1.list() + g2.list())
-Codeword = Encoding_Gabidulin(Message, g)
+Codeword = Encoding_AGabidulin(Message, g)
 
 %time test(100000)
